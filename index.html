@@ -1,1 +1,30 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Python in Browser</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "pyodide": "https:                                                   
+      }
+    }
+  </script>
+</head>
+<body>
+  <script type="module">
+    import * as pyodide from 'pyodide';
+
+    async function main() {
+      const py = await pyodide.loadPyodide();
+      await py.runPythonAsync(`
+        import qrcode
+        data = 'https:                  
+        qr = qrcode.QRCode(box_size=10, border=4)
+        qr.add_data(data)
+        image = qr.make_image(fill_color='black', back_color='white')
+        image.save('qr_code.png')
+      `);
+    }
+    
