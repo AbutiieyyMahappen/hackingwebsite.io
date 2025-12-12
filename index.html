@@ -1,30 +1,98 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Python in Browser</title>
-  <script type="importmap">
-    {
-      "imports": {
-        "pyodide": "https:                                                   
-      }
-    }
-  </script>
-</head>
-<body>
-  <script type="module">
-    import * as pyodide from 'pyodide';
+<meta charset="UTF-8">
+<title>BMW Loading</title>
 
-    async function main() {
-      const py = await pyodide.loadPyodide();
-      await py.runPythonAsync(`
-        import qrcode
-        data = 'https:                  
-        qr = qrcode.QRCode(box_size=10, border=4)
-        qr.add_data(data)
-        image = qr.make_image(fill_color='black', back_color='white')
-        image.save('qr_code.png')
-      `);
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #0d1117;
+        font-family: "Noto Sans", sans-serif;
+        color: white;
     }
-    
+
+    /* Loader Layout */
+    .loader-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        animation: fadeIn 1s ease forwards;
+    }
+
+    /* SMALL BMW Logo Loader */
+    .bmw-loader {
+        width: 100px;      /* ⬅️ Smaller size */
+        height: 100px;     /* ⬅️ Smaller size */
+        position: relative;
+        border-radius: 50%;
+        animation: bmw-spin 1.8s linear infinite;
+    }
+
+    /* Outer black ring */
+    .bmw-loader::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: black;
+        border-radius: 50%;
+        border: 5px solid white; /* auto-scaled ring */
+        box-sizing: border-box;
+    }
+
+    /* Inner quadrants */
+    .bmw-loader::after {
+        content: "";
+        position: absolute;
+        inset: 20px; /* proportional inner circle */
+        border-radius: 50%;
+        background:
+            linear-gradient(90deg, #1c9cf6 50%, white 50%),
+            linear-gradient(#1c9cf6 50%, white 50%);
+        background-size: 100% 100%;
+    }
+
+    /* Spin animation */
+    @keyframes bmw-spin {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Fade-in effect */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* Loading text */
+    .loading-text {
+        font-size: 18px;
+        opacity: 0.8;
+        letter-spacing: 2px;
+        animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="loader-container">
+    <div class="bmw-loader"></div>
+    <div class="loading-text">Loading...</div>
+</div>
+
+</body>
+</html>
