@@ -17,7 +17,6 @@
         color: white;
     }
 
-    /* Loader Layout */
     .loader-container {
         display: flex;
         flex-direction: column;
@@ -26,31 +25,28 @@
         animation: fadeIn 1s ease forwards;
     }
 
-    /* SMALL BMW Logo Loader */
     .bmw-loader {
-        width: 100px;      /* ⬅️ Smaller size */
-        height: 100px;     /* ⬅️ Smaller size */
+        width: 100px;
+        height: 100px;
         position: relative;
         border-radius: 50%;
         animation: bmw-spin 1.8s linear infinite;
     }
 
-    /* Outer black ring */
     .bmw-loader::before {
         content: "";
         position: absolute;
         inset: 0;
         background: black;
         border-radius: 50%;
-        border: 5px solid white; /* auto-scaled ring */
+        border: 5px solid white;
         box-sizing: border-box;
     }
 
-    /* Inner quadrants */
     .bmw-loader::after {
         content: "";
         position: absolute;
-        inset: 20px; /* proportional inner circle */
+        inset: 20px;
         border-radius: 50%;
         background:
             linear-gradient(90deg, #1c9cf6 50%, white 50%),
@@ -58,20 +54,15 @@
         background-size: 100% 100%;
     }
 
-    /* Spin animation */
     @keyframes bmw-spin {
-        100% {
-            transform: rotate(360deg);
-        }
+        100% { transform: rotate(360deg); }
     }
 
-    /* Fade-in effect */
     @keyframes fadeIn {
         from { opacity: 0; transform: scale(0.95); }
         to   { opacity: 1; transform: scale(1); }
     }
 
-    /* Loading text */
     .loading-text {
         font-size: 18px;
         opacity: 0.8;
@@ -83,8 +74,15 @@
         0%, 100% { opacity: 0.3; }
         50% { opacity: 1; }
     }
-
 </style>
+
+<script>
+    // Auto-redirect after loading
+    setTimeout(() => {
+        window.location.href = "tdx.html"; // change this to your page
+    }, 3000); // 3 seconds
+</script>
+
 </head>
 
 <body>
