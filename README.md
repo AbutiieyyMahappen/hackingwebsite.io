@@ -6,7 +6,17 @@ WILL SOON CODE SOMETHING BUILD FOR EVERYONE 🗿🎭
 
 MY DREAM IS TO BECOME A HACKER & CODER🗿🎭
 
-I WANNA BE A WEB DEV & ALSO APK.
+I WANNA BE A WEB DEV & ALSO APK.🌐😅
+
+•. • • • • •™• • • • •
+•.                    •
+•.                    •
+•                     •
+•.                    •
+•    TDX EL RAY       •
+•        •• • •™• • • •
+•        • • • • • •. •
+•. •. •  • • • • • • • 
 
 ABOUT ME🗿
 MY NAME IS ABUTIEYY MAHAPPEN KNOWN AS TDX💀🎭
