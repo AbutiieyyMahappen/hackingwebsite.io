@@ -154,6 +154,153 @@ button{ cursor:pointer;font-weight:700 }
   .panel{ right:10px; left:10px; width:auto }
   #topIcons{ right:12px; gap:12px }
 }
+  root{
+  --bg:#0f0f10;
+  --card:#1b1b1b;
+  --accent:#3b82f6;
+  --text:#ffffff;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+/* HEADER */
+.header{
+  padding:14px;
+  background:#161616;
+  font-size:20px;
+  font-weight:700;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+/* SEARCH */
+.search{
+  padding:10px;
+}
+.search input{
+  width:100%;
+  padding:12px;
+  border-radius:25px;
+  border:none;
+  outline:none;
+  background:#222;
+  color:#fff;
+  font-size:14px;
+}
+
+/* CATEGORIES */
+.categories{
+  display:flex;
+  overflow-x:auto;
+  padding:10px;
+  gap:10px;
+}
+.cat{
+  padding:8px 14px;
+  background:#222;
+  border-radius:20px;
+  font-size:13px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.cat.active{
+  background:var(--accent);
+}
+
+/* LIST */
+.store{
+  padding:10px;
+}
+
+/* CARD */
+.app{
+  display:flex;
+  align-items:center;
+  background:var(--card);
+  border-radius:16px;
+  padding:12px;
+  margin-bottom:12px;
+}
+.app img{
+  width:60px;
+  height:60px;
+  border-radius:14px;
+  margin-right:12px;
+}
+.info{
+  flex:1;
+}
+.name{
+  font-weight:700;
+}
+.dev{
+  font-size:13px;
+  opacity:.7;
+}
+.rate{
+  color:#ffcc66;
+  font-size:13px;
+}
+.btn{
+  padding:8px 14px;
+  border:none;
+  border-radius:20px;
+  background:var(--accent);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+.btn.installed{
+  background:#2a2a2a;
+  color:#9aff9a;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+.modal-box{
+  background:#1a1a1a;
+  width:90%;
+  max-width:350px;
+  border-radius:18px;
+  padding:16px;
+}
+.modal-box h3{
+  margin:0 0 6px;
+}
+.modal-box p{
+  font-size:14px;
+  opacity:.8;
+}
+.modal-box a{
+  display:block;
+  margin-top:12px;
+  padding:10px;
+  text-align:center;
+  background:var(--accent);
+  border-radius:25px;
+  color:white;
+  text-decoration:none;
+  font-weight:700;
+}
+.close{
+  text-align:center;
+  margin-top:10px;
+  opacity:.6;
+  cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -228,9 +375,32 @@ button{ cursor:pointer;font-weight:700 }
     <div class="settings-block">
       <h3>Quick Actions</h3>
       <div class="row">
-        <button class="small-btn" onclick="openPage('profilePage')">Open Profile</button>
-        <button class="small-btn" onclick="openPage('settingsPage')">Open Settings</button>
-        <button class="small-btn" onclick="addNotification('Test notification: welcome!')">Add Test Notification</button>
+        <div class="header">🔥 TDX App Store</div>
+
+<div class="search">
+  <input type="text" placeholder="Search apps..." oninput="search(this.value)">
+</div>
+
+<div class="categories">
+  <div class="cat active" onclick="filterCat('all',this)">All</div>
+  <div class="cat" onclick="filterCat('tools',this)">Tools</div>
+  <div class="cat" onclick="filterCat('games',this)">Games</div>
+  <div class="cat" onclick="filterCat('vpn',this)">Network</div>
+</div>
+
+<div class="store" id="store"></div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h3 id="mName"></h3>
+    <p id="mDev"></p>
+    <p id="mDesc"></p>
+    <a id="mLink" href="#" target="_blank">Download</a>
+    <div class="close" onclick="closeModal()">Close</div>
+  </div>
+</div>
+
       </div>
     </div>
   </div>
@@ -614,6 +784,73 @@ window.onload = init;
 
 /* utility to open page shorthand */
 function openPage(pageId){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(pageId).classList.add('active'); closePanels(); document.getElementById('menu').style.width='0'; document.getElementById('hamburgerBtn').classList.remove('active'); }
+
+  const apps=[
+ {name:"Host Tester",dev:"TDX Mahappen",rate:"⭐ 4.6",cat:"tools",desc:"Check if a host is online or offline.",link:"https://example.com"},
+ {name:"Car Race Pro",dev:"TDX Games",rate:"⭐ 4.8",cat:"games",desc:"Smooth racing experience.",link:"https://example.com"},
+ {name:"Network Utility",dev:"Mahappen Dev",rate:"⭐ 4.4",cat:"vpn",desc:"Network testing tools.",link:"https://example.com"}
+];
+
+let currentCat="all";
+
+function render(list){
+ const s=document.getElementById("store");
+ s.innerHTML="";
+ list.forEach((a,i)=>{
+  const installed=localStorage.getItem(a.name);
+  s.innerHTML+=`
+   <div class="app">
+    <img src="https://via.placeholder.com/100">
+    <div class="info" onclick="openModal(${i})">
+      <div class="name">${a.name}</div>
+      <div class="dev">${a.dev}</div>
+      <div class="rate">${a.rate}</div>
+    </div>
+    <button class="btn ${installed?'installed':''}" onclick="install(event,this,'${a.name}')">
+      ${installed?'Open':'Install'}
+    </button>
+   </div>`;
+ });
+}
+
+function install(e,b,n){
+ e.stopPropagation();
+ if(localStorage.getItem(n)){
+  alert("Opening app...");
+ }else{
+  localStorage.setItem(n,"1");
+  b.innerText="Open";
+  b.classList.add("installed");
+ }
+}
+
+function openModal(i){
+ const a=apps[i];
+ document.getElementById("mName").innerText=a.name;
+ document.getElementById("mDev").innerText=a.dev;
+ document.getElementById("mDesc").innerText=a.desc;
+ document.getElementById("mLink").href=a.link;
+ document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){
+ document.getElementById("modal").style.display="none";
+}
+
+function search(v){
+ v=v.toLowerCase();
+ render(apps.filter(a=>a.name.toLowerCase().includes(v) && (currentCat==="all"||a.cat===currentCat)));
+}
+
+function filterCat(c,el){
+ document.querySelectorAll(".cat").forEach(x=>x.classList.remove("active"));
+ el.classList.add("active");
+ currentCat=c;
+ render(apps.filter(a=>c==="all"||a.cat===c));
+}
+
+render(apps);
+</script>
 </script>
 </body>
 </html>
