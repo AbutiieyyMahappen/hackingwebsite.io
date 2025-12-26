@@ -16,3 +16,7 @@ nano index.js
 **run bot**
 cd ~/Mahappen-bot
 node index.js
+
+install node.js
+
+pkg install nodejs-lts -y
