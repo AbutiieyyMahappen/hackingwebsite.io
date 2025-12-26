@@ -2,7 +2,7 @@
 
 **run bot**
 
-node index.js
+*node index.js
 
 **REMEMBER THIS RULE (IMPORTANT)**
 
@@ -14,14 +14,19 @@ node index.js
 Copy code**
 **Bash**
 
-nano index.js
+*nano index.js
 
 
 **run bot**
 
-cd ~/Mahappen-bot
+*cd ~/Mahappen-bot
 node index.js
 
 **install node.js**
 
-pkg install nodejs-lts -y
+*pkg install nodejs-lts -y
+
+**install whiskey**
+
+*npm install @whiskeysockets/baileys pino qrcode-terminal
+
